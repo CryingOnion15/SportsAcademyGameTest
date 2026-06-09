@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Hopper — UI Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green:   #4CAF50;
+    --green-d: #2e7d32;
+    --green-l: #a5d6a7;
+    --green-xl:#e8f5e9;
+    --amber:   #F5A623;
+    --amber-d: #e65100;
+    --amber-l: #ffe0b2;
+    --blue:    #1565C0;
+    --blue-d:  #0d47a1;
+    --blue-l:  #bbdefb;
+    --sand:    #F5E6C8;
+    --sand-d:  #bcaaa4;
+    --gold:    #FFD600;
+    --gold-d:  #f9a825;
+    --red:     #e53935;
+    --red-l:   #ffcdd2;
+    --white:   #FFFFFF;
+    --off-white: #fdf8f2;
+    --text-dark: #1a1a1a;
+    --panel-bg: rgba(21, 45, 15, 0.82);
+    --panel-border: rgba(76, 175, 80, 0.45);
+    --hud-radius: 14px;
+    --font-head: 'Fredoka One', cursive;
+    --font-body: 'Nunito', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+  }
+
+  html, body {
+    height: 100%;
+    background: #0a1f0a;
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow: hidden;
+  }
+
+  /* ── SCREEN SYSTEM ── */
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .screen.active { display: flex; }
+
+  /* ── NAV STRIP (mockup only) ── */
+  #nav-strip {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.85);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    gap: 4px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+  }
+  #nav-strip button {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  #nav-strip button:hover { background: rgba(255,255,255,0.18); }
+  #nav-strip button.active { background: var(--green); border-color: var(--green-d); }
+
+  /* ╔══════════════════════════════╗
+     ║  SCREEN 1 — TITLE            ║
+     ╚══════════════════════════════╝ */
+  #screen-title {
+    flex-direction: column;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 60%, rgba(76,175,80,0.18) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(76,175,80,0.06) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(76,175,80,0.06) 40px),
+      #071a07;
+  }
+
+  .title-pond {
+    position: absolute;
+    bottom: 48px; left: 50%;
+    transform: translateX(-50%);
+    width: 560px; height: 110px;
+    background: radial-gradient(ellipse 100% 60% at 50% 70%, #1565C0 0%, #0d3776 60%, transparent 100%);
+    border-radius: 50%;
+    opacity: 0.55;
+    filter: blur(2px);
+  }
+
+  .title-logo {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .title-logo .hop {
+    font-family: var(--font-head);
+    font-size: 100px;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--green);
+    text-shadow:
+      0 0 40px rgba(76,175,80,0.6),
+      4px 6px 0 rgba(0,0,0,0.5);
+    animation: pulse-logo 2.5s ease-in-out infinite;
+  }
+  .title-logo .math {
+    font-family: var(--font-head);
+    font-size: 100px;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: var(--amber);
+    text-shadow:
+      0 0 40px rgba(245,166,35,0.5),
+      4px 6px 0 rgba(0,0,0,0.5);
+    animation: pulse-logo 2.5s ease-in-out infinite 0.4s;
+  }
+  .title-logo .frog-emoji {
+    font-size: 80px;
+    display: block;
+    margin-bottom: -8px;
+    animation: bounce 1s ease-in-out infinite;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
+  }
+  .tagline {
+    font-size: 20px;
+    color: var(--sand);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 14px 0 40px;
+    opacity: 0.9;
+  }
+
+  .title-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .btn-primary {
+    font-family: var(--font-head);
+    font-size: 32px;
+    letter-spacing: 1px;
+    padding: 18px 64px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(160deg, #5dba60 0%, #2e7d32 100%);
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 0 #1b5e20, 0 8px 20px rgba(0,0,0,0.5);
+    transition: transform 0.08s, box-shadow 0.08s;
+    position: relative;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #1b5e20, 0 12px 24px rgba(0,0,0,0.5); }
+  .btn-primary:active { transform: translateY(3px); box-shadow: 0 3px 0 #1b5e20, 0 4px 12px rgba(0,0,0,0.4); }
+
+  .btn-secondary {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 800;
+    padding: 10px 28px;
+    border-radius: 24px;
+    border: 2px solid rgba(245,166,35,0.5);
+    cursor: pointer;
+    background: rgba(245,166,35,0.12);
+    color: var(--amber);
+    letter-spacing: 0.5px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn-secondary:hover { background: rgba(245,166,35,0.22); border-color: var(--amber); }
+
+  .mode-chooser {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .mode-btn {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 800;
+    padding: 10px 22px;
+    border-radius: 24px;
+    border: 2px solid;
+    cursor: pointer;
+    transition: all 0.12s;
+    letter-spacing: 0.3px;
+  }
+  .mode-btn.solo    { border-color: #4CAF50; color: #4CAF50; background: rgba(76,175,80,0.1); }
+  .mode-btn.vs      { border-color: #F5A623; color: #F5A623; background: rgba(245,166,35,0.1); }
+  .mode-btn.flat    { border-color: #90caf9; color: #90caf9; background: rgba(144,202,249,0.1); }
+  .mode-btn.active  { color: #fff !important; }
+  .mode-btn.solo.active    { background: #4CAF50; }
+  .mode-btn.vs.active      { background: #F5A623; }
+  .mode-btn.flat.active    { background: #1976d2; border-color: #1976d2; }
+
+  .high-score-strip {
+    margin-top: 24px;
+    padding: 12px 32px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 2;
+  }
+  .high-score-strip span {
+    font-family: var(--font-mono);
+    color: var(--gold);
+    font-size: 18px;
+    font-weight: 700;
+    margin-left: 8px;
+  }
+
+  /* decorative lily pads */
+  .deco-pad {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--green-d);
+    opacity: 0.18;
+    z-index: 1;
+  }
+
+  /* ╔══════════════════════════════╗
+     ║  SCREEN 2 — LOBBY            ║
+     ╚══════════════════════════════╝ */
+  #screen-lobby {
+    background:
+      radial-gradient(ellipse 50% 60% at 50% 110%, rgba(21,101,192,0.35) 0%, transparent 65%),
+      #071a07;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .lobby-header {
+    font-family: var(--font-head);
+    font-size: 36px;
+    color: var(--amber);
+    text-shadow: 0 0 20px rgba(245,166,35,0.4);
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .lobby-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 28px;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  .lobby-players {
+    display: grid;
+    grid-template-columns: repeat(2, 200px);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .player-slot {
+    border-radius: 14px;
+    padding: 18px 16px;
+    border: 2px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-height: 130px;
+    justify-content: center;
+  }
+  .player-slot.filled {
+    background: rgba(76,175,80,0.12);
+    border-color: var(--green);
+  }
+  .player-slot.waiting {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.15);
+    border-style: dashed;
+  }
+  .player-slot.host {
+    background: rgba(245,166,35,0.1);
+    border-color: var(--amber);
+  }
+
+  .player-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 900;
+  }
+  .player-avatar.green { background: var(--green); }
+  .player-avatar.amber { background: var(--amber); color: #111; }
+  .player-avatar.blue  { background: #1976d2; }
+  .player-avatar.empty {
+    background: rgba(255,255,255,0.07);
+    font-size: 22px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .player-name {
+    font-weight: 800;
+    font-size: 15px;
+    text-align: center;
+  }
+  .player-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .badge-ready    { background: rgba(76,175,80,0.2); color: var(--green-l); }
+  .badge-host     { background: rgba(245,166,35,0.2); color: var(--amber); }
+  .badge-waiting  { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.35); }
+  .badge-empty    { color: rgba(255,255,255,0.2); font-size: 12px; }
+
+  .lobby-countdown {
+    font-family: var(--font-mono);
+    font-size: 64px;
+    color: var(--green);
+    text-shadow: 0 0 30px rgba(76,175,80,0.5);
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .lobby-countdown-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  .lobby-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .btn-lobby-ready {
+    font-family: var(--font-head);
+    font-size: 22px;
+    padding: 14px 48px;
+    border-radius: 40px;
+    border: none;
+    background: linear-gradient(160deg, #5dba60 0%, #2e7d32 100%);
+    color: #fff;
+    box-shadow: 0 5px 0 #1b5e20;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s;
+  }
+  .btn-lobby-ready:hover { transform: translateY(-1px); }
+
+  .lobby-code {
+    margin-top: 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+  }
+  .lobby-code code {
+    font-family: var(--font-mono);
+    color: var(--amber);
+    font-size: 16px;
+    letter-spacing: 3px;
+  }
+
+  /* ╔══════════════════════════════╗
+     ║  SCREEN 3 — IN-MATCH HUD     ║
+     ╚══════════════════════════════╝ */
+  #screen-hud {
+    align-items: stretch;
+    background: #000;
+  }
+
+  /* The game viewport placeholder */
+  .game-viewport {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, #071a07 0%, #0a2e10 35%, #0d3b1a 60%, #091a2a 85%, #07132a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 18px;
+    color: rgba(255,255,255,0.12);
+    letter-spacing: 2px;
+  }
+
+  /* HUD overlay (pointer-events only on UI panels, center transparent) */
+  .hud-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ── Goal zone strip (TOP) ── */
+  .goal-strip {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 12px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 100%);
+    pointer-events: auto;
+  }
+
+  .goal-zone {
+    flex: 1;
+    max-width: 210px;
+    min-width: 140px;
+    height: 54px;
+    border-radius: 10px;
+    background: rgba(20,10,0,0.85);
+    border: 2px solid rgba(255,214,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+    position: relative;
+    overflow: hidden;
+  }
+  .goal-zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,214,0,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .goal-zone:hover { border-color: var(--gold); background: rgba(40,25,0,0.9); }
+  .goal-zone.correct {
+    border-color: var(--green) !important;
+    background: rgba(0,60,0,0.9) !important;
+    animation: flash-green 0.5s ease;
+  }
+  .goal-zone.wrong {
+    border-color: var(--red) !important;
+    background: rgba(60,0,0,0.9) !important;
+    animation: flash-red 0.4s ease;
+  }
+
+  .goal-label {
+    font-size: 10px;
+    color: rgba(255,214,0,0.5);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .goal-eq {
+    font-family: var(--font-body);
+    font-weight: 900;
+    font-size: 17px;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+  }
+
+  /* ── Top-left: Timer ── */
+  .hud-timer-panel {
+    position: absolute;
+    top: 78px; left: 12px;
+    pointer-events: auto;
+  }
+  .timer-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .timer-value {
+    font-family: var(--font-mono);
+    font-size: 52px;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255,255,255,0.3);
+    font-weight: 400;
+  }
+  .timer-value.urgent {
+    color: #ff5722;
+    animation: timer-pulse 0.7s ease-in-out infinite;
+    text-shadow: 0 0 24px rgba(255,87,34,0.7);
+  }
+  .hud-timer-bg {
+    position: absolute;
+    top: 70px; left: 4px;
+    width: 160px; height: 80px;
+    background: rgba(0,0,0,0.55);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.07);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+  }
+
+  /* ── Top-right: Score ── */
+  .hud-score-panel {
+    position: absolute;
+    top: 78px; right: 12px;
+    text-align: right;
+    pointer-events: auto;
+  }
+  .score-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .score-value {
+    font-family: var(--font-mono);
+    font-size: 52px;
+    line-height: 1;
+    color: var(--amber);
+    text-shadow: 0 0 20px rgba(245,166,35,0.4);
+  }
+  .hud-score-bg {
+    position: absolute;
+    top: 70px; right: 4px;
+    width: 160px; height: 80px;
+    background: rgba(0,0,0,0.55);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.07);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+  }
+
+  /* ── Bottom-center: Frog value ── */
+  .hud-frog-panel {
+    position: absolute;
+    bottom: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    pointer-events: auto;
+  }
+  .frog-value-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .frog-value-bubble {
+    background: rgba(0,0,0,0.7);
+    border: 2px solid var(--green);
+    border-radius: 50px;
+    padding: 6px 28px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 0 16px rgba(76,175,80,0.3);
+  }
+  .frog-icon { font-size: 22px; line-height: 1; }
+  .frog-value-num {
+    font-family: var(--font-mono);
+    font-size: 36px;
+    color: var(--green-l);
+    font-weight: 700;
+    min-width: 48px;
+    text-align: center;
+  }
+
+  /* ── Bottom strip: Speed bonus ── */
+  .hud-speed-strip {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 42px;
+    background: rgba(0,0,0,0.6);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 0 20px;
+    pointer-events: auto;
+  }
+  .speed-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+  }
+  .speed-item .val {
+    font-family: var(--font-mono);
+    color: var(--amber);
+    font-size: 15px;
+  }
+  .speed-bar-track {
+    width: 120px; height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+    overflow: hidden;
+  }
+  .speed-bar-fill {
+    height: 100%;
+    width: 55%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--green) 0%, var(--amber) 100%);
+  }
+
+  /* ── Right: Opponent leaderboard (vs mode) ── */
+  .hud-leaderboard {
+    position: absolute;
+    top: 70px; right: 12px;
+    width: 170px;
+    background: rgba(0,0,0,0.72);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    pointer-events: auto;
+  }
+  .lb-title {
+    background: rgba(245,166,35,0.15);
+    border-bottom: 1px solid rgba(245,166,35,0.2);
+    padding: 7px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+  .lb-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .lb-row.me { background: rgba(76,175,80,0.1); }
+  .lb-rank {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    width: 16px;
+  }
+  .lb-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .lb-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+  }
+  .lb-score {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--amber);
+  }
+
+  /* ── Score pop animation ── */
+  .score-pop {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-head);
+    font-size: 72px;
+    color: var(--green);
+    text-shadow: 0 0 30px rgba(76,175,80,0.8), 2px 4px 0 rgba(0,0,0,0.5);
+    pointer-events: none;
+    animation: score-pop 1.2s ease-out forwards;
+    z-index: 100;
+    white-space: nowrap;
+  }
+
+  /* ── Overlay states ── */
+  .hud-overlay-tint {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    display: none;
+  }
+  .hud-overlay-tint.correct-tint {
+    background: rgba(76,175,80,0.22);
+    display: block;
+    animation: tint-fade 0.5s ease forwards;
+  }
+  .hud-overlay-tint.wrong-tint {
+    background: rgba(229,57,53,0.22);
+    display: block;
+    animation: shake 0.4s ease, tint-fade 0.4s ease forwards;
+  }
+  .hud-overlay-tint.death-tint {
+    background: rgba(0,0,0,0.55);
+    display: block;
+    animation: tint-fade-dark 0.8s ease forwards;
+  }
+
+  .wrong-text {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-head);
+    font-size: 28px;
+    color: var(--red);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+    animation: tint-fade 0.5s ease forwards;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 55;
+    letter-spacing: 2px;
+  }
+
+  /* ── Flat mode: Typed answer panel ── */
+  .flat-panel {
+    position: absolute;
+    bottom: 48px; right: 16px;
+    width: 200px;
+    background: rgba(0,0,0,0.8);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 14px 16px;
+    pointer-events: auto;
+  }
+  .flat-panel-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .flat-panel input[type="text"] {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 28px;
+    text-align: center;
+    padding: 8px 10px;
+    outline: none;
+    transition: border-color 0.12s;
+  }
+  .flat-panel input[type="text"]:focus { border-color: var(--green); }
+  .flat-panel .btn-submit {
+    margin-top: 10px;
+    width: 100%;
+    font-family: var(--font-head);
+    font-size: 17px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(160deg, #5dba60 0%, #2e7d32 100%);
+    color: #fff;
+    box-shadow: 0 4px 0 #1b5e20;
+    cursor: pointer;
+  }
+
+  /* ╔══════════════════════════════╗
+     ║  SCREEN 4 — RESULTS          ║
+     ╚══════════════════════════════╝ */
+  #screen-results {
+    background: rgba(0,0,0,0.88);
+    backdrop-filter: blur(6px);
+    flex-direction: column;
+  }
+
+  .results-panel {
+    background: rgba(15,30,10,0.95);
+    border: 2px solid rgba(76,175,80,0.35);
+    border-radius: 24px;
+    padding: 40px 52px;
+    min-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 0 60px rgba(76,175,80,0.15);
+  }
+  .results-title {
+    font-family: var(--font-head);
+    font-size: 22px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .results-score {
+    font-family: var(--font-mono);
+    font-size: 96px;
+    line-height: 1;
+    color: var(--amber);
+    text-shadow: 0 0 40px rgba(245,166,35,0.5);
+    animation: score-reveal 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+  }
+  .results-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+
+  .results-stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px 20px;
+    text-align: center;
+    min-width: 110px;
+  }
+  .stat-val {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .stat-lbl {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .results-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 4px;
+  }
+  .btn-play-again {
+    font-family: var(--font-head);
+    font-size: 24px;
+    padding: 14px 44px;
+    border-radius: 40px;
+    border: none;
+    background: linear-gradient(160deg, #5dba60 0%, #2e7d32 100%);
+    color: #fff;
+    box-shadow: 0 5px 0 #1b5e20;
+    cursor: pointer;
+    transition: transform 0.08s;
+  }
+  .btn-play-again:hover { transform: translateY(-2px); }
+
+  .btn-exit {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 800;
+    padding: 14px 28px;
+    border-radius: 40px;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-exit:hover { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.85); }
+
+  .results-rank {
+    margin-bottom: 20px;
+  }
+  .rank-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+  }
+  .rank-row.winner { background: rgba(245,166,35,0.12); }
+  .rank-row.me-row  { background: rgba(76,175,80,0.1); }
+  .rank-num { font-family: var(--font-mono); font-size: 18px; color: var(--gold); width: 24px; }
+  .rank-name { font-size: 14px; font-weight: 800; flex: 1; }
+  .rank-pts  { font-family: var(--font-mono); font-size: 16px; color: var(--amber); }
+
+  /* ── Animations ── */
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-14px); }
+  }
+  @keyframes pulse-logo {
+    0%, 100% { text-shadow: 0 0 40px rgba(76,175,80,0.6), 4px 6px 0 rgba(0,0,0,0.5); }
+    50%       { text-shadow: 0 0 70px rgba(76,175,80,0.9), 4px 6px 0 rgba(0,0,0,0.5); }
+  }
+  @keyframes timer-pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.04); }
+  }
+  @keyframes flash-green {
+    0%   { background: rgba(76,175,80,0.6) !important; box-shadow: 0 0 30px rgba(76,175,80,0.8); }
+    100% { background: rgba(0,60,0,0.9) !important; }
+  }
+  @keyframes flash-red {
+    0%   { background: rgba(229,57,53,0.7) !important; box-shadow: 0 0 30px rgba(229,57,53,0.8); }
+    100% { background: rgba(60,0,0,0.9) !important; }
+  }
+  @keyframes score-pop {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    20%  { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+    60%  { opacity: 1; transform: translate(-50%, -120%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -200%) scale(0.9); }
+  }
+  @keyframes tint-fade {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  @keyframes tint-fade-dark {
+    0%   { opacity: 0; }
+    20%  { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%     { transform: translateX(-8px); }
+    40%     { transform: translateX(8px); }
+    60%     { transform: translateX(-5px); }
+    80%     { transform: translateX(5px); }
+  }
+  @keyframes score-reveal {
+    0%   { transform: scale(0.4); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* Starburst particles */
+  .particle {
+    position: absolute;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particle-burst 0.9s ease-out forwards;
+  }
+  @keyframes particle-burst {
+    0%   { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+  }
+
+  /* Tooltip / micro labels */
+  .micro-tag {
+    position: absolute;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .micro-tag.green { background: var(--green); color: #fff; }
+  .micro-tag.amber { background: var(--amber); color: #111; }
+
+  /* Mode indicator on HUD */
+  .mode-indicator {
+    position: absolute;
+    top: 78px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* Demo toggle controls */
+  .demo-controls {
+    position: absolute;
+    top: 78px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 200;
+    pointer-events: auto;
+  }
+  .demo-btn {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.6);
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.1s;
+    backdrop-filter: blur(4px);
+  }
+  .demo-btn:hover { background: rgba(255,255,255,0.15); }
+  .demo-btn.on { background: rgba(76,175,80,0.4); border-color: var(--green); color: #fff; }
+
+  /* Annotations */
+  .annot {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.3);
+    background: rgba(0,0,0,0.4);
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 200;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* Scrollable wrapper for small screens */
+  #root {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+</style>
+</head>
+<body>
+<div id="root">
+
+  <!-- ══════════════════════════════════════
+       SCREEN 1 — TITLE
+  ══════════════════════════════════════ -->
+  <div id="screen-title" class="screen active">
+    <!-- Decorative lily pads -->
+    <div class="deco-pad" style="width:180px;height:180px;bottom:20px;left:5%;"></div>
+    <div class="deco-pad" style="width:90px;height:90px;bottom:60px;right:8%;"></div>
+    <div class="deco-pad" style="width:130px;height:130px;top:15%;left:12%;"></div>
+    <div class="deco-pad" style="width:60px;height:60px;top:10%;right:15%;"></div>
+
+    <div class="title-pond"></div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;">
+      <div class="title-logo">
+        <span class="frog-emoji">🐸</span>
+        <span class="math">MATH</span><span class="hop">HOPPER</span>
+      </div>
+      <p class="tagline">🎯 Hop smart. Calculate fast. Score big.</p>
+
+      <div class="mode-chooser">
+        <button class="mode-btn solo active" data-testid="mode-solo" onclick="setMode('solo',this)">Solo</button>
+        <button class="mode-btn vs"   data-testid="mode-vs"   onclick="setMode('vs',this)">VS Score</button>
+        <button class="mode-btn flat" data-testid="mode-flat" onclick="setMode('flat',this)">Diagnostic</button>
+      </div>
+
+      <div class="title-buttons">
+        <button class="btn-primary" data-testid="btn-play" onclick="gotoScreen('screen-lobby')">▶ PLAY</button>
+      </div>
+
+      <div class="high-score-strip">
+        🏆 Local Best &nbsp;<span>2,840 pts</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 2 — LOBBY (vs-score)
+  ══════════════════════════════════════ -->
+  <div id="screen-lobby" class="screen">
+    <div class="lobby-header">⚔️ Battle Lobby</div>
+    <div class="lobby-sub">ROOM CODE <code style="font-family:var(--font-mono);color:var(--amber);letter-spacing:3px;">MH-4821</code></div>
+
+    <div class="lobby-players">
+      <!-- Player 1 (host) -->
+      <div class="player-slot host" data-testid="lobby-player-0">
+        <div class="player-avatar amber">P1</div>
+        <div class="player-name">You</div>
+        <div class="player-badge badge-host">HOST</div>
+      </div>
+      <!-- Player 2 ready -->
+      <div class="player-slot filled" data-testid="lobby-player-1">
+        <div class="player-avatar green">P2</div>
+        <div class="player-name">MathFrog42</div>
+        <div class="player-badge badge-ready">✓ READY</div>
+      </div>
+      <!-- Player 3 joined -->
+      <div class="player-slot filled" data-testid="lobby-player-2" style="border-color:#1976d2;background:rgba(25,118,210,0.1);">
+        <div class="player-avatar blue">P3</div>
+        <div class="player-name">Leapster</div>
+        <div class="player-badge badge-waiting">JOINING…</div>
+      </div>
+      <!-- Player 4 empty -->
+      <div class="player-slot waiting" data-testid="lobby-player-3">
+        <div class="player-avatar empty">+</div>
+        <div style="color:rgba(255,255,255,0.2);font-size:13px;font-weight:700;">Waiting…</div>
+        <div class="player-badge badge-empty">Empty slot</div>
+      </div>
+    </div>
+
+    <div class="lobby-countdown" id="lobby-count">03</div>
+    <div class="lobby-countdown-label">Starting in…</div>
+
+    <div class="lobby-actions">
+      <button class="btn-lobby-ready" data-testid="btn-lobby-ready" onclick="gotoScreen('screen-hud')">✓ READY</button>
+      <button class="btn-secondary" data-testid="btn-lobby-back" onclick="gotoScreen('screen-title')">← Back</button>
+    </div>
+
+    <div class="lobby-code">Share code: <code>MH-4821</code></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 3 — IN-MATCH HUD
+  ══════════════════════════════════════ -->
+  <div id="screen-hud" class="screen">
+    <!-- Game canvas placeholder -->
+    <div class="game-viewport">PHASER CANVAS</div>
+
+    <!-- HUD Chrome Overlay -->
+    <div class="hud-overlay" id="hud-overlay">
+
+      <!-- Goal zone strip -->
+      <div class="goal-strip">
+        <div class="goal-zone" id="goal-zone-0" data-testid="goal-zone-0" onclick="triggerGoal(this,'correct')">
+          <div class="goal-label">ZONE 1</div>
+          <div class="goal-eq">3 + ? = 8</div>
+        </div>
+        <div class="goal-zone" id="goal-zone-1" data-testid="goal-zone-1" onclick="triggerGoal(this,'wrong')">
+          <div class="goal-label">ZONE 2</div>
+          <div class="goal-eq">12 ÷ ? = 3</div>
+        </div>
+        <div class="goal-zone" id="goal-zone-2" data-testid="goal-zone-2" onclick="triggerGoal(this,'correct')">
+          <div class="goal-label">ZONE 3</div>
+          <div class="goal-eq">2 × ? = 10</div>
+        </div>
+        <div class="goal-zone" id="goal-zone-3" data-testid="goal-zone-3" onclick="triggerGoal(this,'wrong')">
+          <div class="goal-label">ZONE 4</div>
+          <div class="goal-eq">? − 3 = 14</div>
+        </div>
+        <div class="goal-zone" id="goal-zone-4" data-testid="goal-zone-4" onclick="triggerGoal(this,'correct')">
+          <div class="goal-label">ZONE 5</div>
+          <div class="goal-eq">4 + ? = 9</div>
+        </div>
+      </div>
+
+      <!-- Timer background -->
+      <div class="hud-timer-bg"></div>
+
+      <!-- Timer -->
+      <div class="hud-timer-panel">
+        <div class="timer-label">TIME</div>
+        <div class="timer-value" id="session-timer" data-testid="session-timer">19:42</div>
+      </div>
+
+      <!-- Score background -->
+      <div class="hud-score-bg"></div>
+
+      <!-- Score -->
+      <div class="hud-score-panel">
+        <div class="score-label">SCORE</div>
+        <div class="score-value" id="score-display" data-testid="score-display">1,240</div>
+      </div>
+
+      <!-- Frog value -->
+      <div class="hud-frog-panel">
+        <div class="frog-value-label">Your Number</div>
+        <div class="frog-value-bubble">
+          <span class="frog-icon">🐸</span>
+          <span class="frog-value-num" id="frog-value-display" data-testid="frog-value-display">5</span>
+        </div>
+      </div>
+
+      <!-- Speed bonus strip -->
+      <div class="hud-speed-strip">
+        <div class="speed-item">
+          <span>CROSSING TIME</span>
+          <span class="val" id="crossing-time">0:08</span>
+        </div>
+        <div class="speed-item">
+          <span>SPEED BONUS</span>
+          <span class="val" id="speed-bonus">+52 pts</span>
+        </div>
+        <div class="speed-item">
+          <div class="speed-bar-track">
+            <div class="speed-bar-fill" id="speed-bar"></div>
+          </div>
+        </div>
+        <div class="speed-item">
+          <span>CROSSINGS</span>
+          <span class="val">7</span>
+        </div>
+      </div>
+
+      <!-- Opponent leaderboard (vs mode) -->
+      <div class="hud-leaderboard" id="hud-leaderboard" style="top:158px;">
+        <div class="lb-title">🏆 Live Scores</div>
+        <div class="lb-row">
+          <div class="lb-rank">#1</div>
+          <div class="lb-dot" style="background:#F5A623;"></div>
+          <div class="lb-name">MathFrog42</div>
+          <div class="lb-score">1,820</div>
+        </div>
+        <div class="lb-row me">
+          <div class="lb-rank">#2</div>
+          <div class="lb-dot" style="background:#4CAF50;"></div>
+          <div class="lb-name" style="color:var(--green-l);">You</div>
+          <div class="lb-score">1,240</div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank">#3</div>
+          <div class="lb-dot" style="background:#1976d2;"></div>
+          <div class="lb-name">Leapster</div>
+          <div class="lb-score">960</div>
+        </div>
+      </div>
+
+      <!-- Flat mode typed answer panel -->
+      <div class="flat-panel" id="flat-panel" style="display:none;">
+        <div class="flat-panel-label">Your Answer</div>
+        <input type="text" id="input-answer" data-testid="input-answer" placeholder="?" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+        <button class="btn-submit" data-testid="btn-submit-answer" onclick="submitFlatAnswer()">Submit ↵</button>
+      </div>
+
+      <!-- Demo controls -->
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="demoCorrect()">✓ Correct</button>
+        <button class="demo-btn" onclick="demoWrong()">✗ Wrong</button>
+        <button class="demo-btn" onclick="demoDeath()">💀 Death</button>
+        <button class="demo-btn" id="btn-urgent-toggle" onclick="toggleUrgent()">⏰ Urgent</button>
+        <button class="demo-btn" id="btn-lb-toggle" onclick="toggleLeaderboard()">👥 VS Mode</button>
+        <button class="demo-btn" id="btn-flat-toggle" onclick="toggleFlat()">📝 Flat Mode</button>
+        <button class="demo-btn" onclick="gotoScreen('screen-results')">→ Results</button>
+      </div>
+
+      <!-- Feedback overlays -->
+      <div class="hud-overlay-tint" id="feedback-tint"></div>
+      <div id="score-pop-container"></div>
+      <div id="wrong-text-container"></div>
+      <div id="particle-container"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 4 — RESULTS
+  ══════════════════════════════════════ -->
+  <div id="screen-results" class="screen">
+    <div class="results-panel">
+      <div class="results-title">Session Complete</div>
+      <div class="results-score">2,840</div>
+      <div class="results-label">FINAL SCORE</div>
+
+      <div class="results-stats">
+        <div class="stat-card">
+          <div class="stat-val">14</div>
+          <div class="stat-lbl">Crossings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">+94</div>
+          <div class="stat-lbl">Best Bonus</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">3</div>
+          <div class="stat-lbl">Deaths</div>
+        </div>
+      </div>
+
+      <!-- VS mode podium -->
+      <div class="results-rank">
+        <div class="rank-row winner">
+          <div class="rank-num">🥇</div>
+          <div class="rank-name" style="color:var(--gold);">MathFrog42</div>
+          <div class="rank-pts">3,120</div>
+        </div>
+        <div class="rank-row me-row">
+          <div class="rank-num">🥈</div>
+          <div class="rank-name" style="color:var(--green-l);">You</div>
+          <div class="rank-pts">2,840</div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-num">🥉</div>
+          <div class="rank-name">Leapster</div>
+          <div class="rank-pts">1,960</div>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn-play-again" data-testid="btn-play-again" onclick="gotoScreen('screen-title')">▶ Play Again</button>
+        <button class="btn-exit" data-testid="btn-exit" onclick="gotoScreen('screen-title')">Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV STRIP (mockup navigation only) -->
+  <div id="nav-strip">
+    <span style="font-size:11px;color:rgba(255,255,255,0.3);margin-right:4px;line-height:26px;">SCREEN:</span>
+    <button onclick="gotoScreen('screen-title')"  class="active" id="nav-title">1 · Title</button>
+    <button onclick="gotoScreen('screen-lobby')"  id="nav-lobby">2 · Lobby</button>
+    <button onclick="gotoScreen('screen-hud')"    id="nav-hud">3 · HUD</button>
+    <button onclick="gotoScreen('screen-results')" id="nav-results">4 · Results</button>
+  </div>
+
+</div>
+
+<script>
+  /* ── Screen routing ── */
+  function gotoScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('#nav-strip button').forEach(b => b.classList.remove('active'));
+    const map = {
+      'screen-title':   'nav-title',
+      'screen-lobby':   'nav-lobby',
+      'screen-hud':     'nav-hud',
+      'screen-results': 'nav-results'
+    };
+    const btn = document.getElementById(map[id]);
+    if (btn) btn.classList.add('active');
+  }
+
+  /* ── Mode selector ── */
+  function setMode(mode, el) {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    window._currentMode = mode;
+  }
+
+  /* ── Demo: Correct answer ── */
+  function demoCorrect() {
+    const zones = document.querySelectorAll('.goal-zone');
+    const zone = zones[Math.floor(Math.random() * zones.length)];
+    triggerGoal(zone, 'correct');
+  }
+
+  function triggerGoal(zone, outcome) {
+    if (outcome === 'correct') {
+      zone.classList.add('correct');
+      showScorePop('+' + (Math.floor(Math.random() * 80 + 80)) + ' pts');
+      spawnParticles(zone);
+      showTint('correct-tint');
+      // Update score
+      const sc = document.getElementById('score-display');
+      const cur = parseInt(sc.textContent.replace(',','')) || 0;
+      const add = Math.floor(Math.random()*80+80);
+      sc.textContent = (cur+add).toLocaleString();
+      setTimeout(() => zone.classList.remove('correct'), 600);
+    } else {
+      zone.classList.add('wrong');
+      showTint('wrong-tint');
+      showWrongText();
+      setTimeout(() => zone.classList.remove('wrong'), 500);
+    }
+  }
+
+  /* ── Demo: Wrong answer ── */
+  function demoWrong() {
+    const zones = document.querySelectorAll('.goal-zone');
+    const zone = zones[Math.floor(Math.random() * zones.length)];
+    triggerGoal(zone, 'wrong');
+  }
+
+  /* ── Demo: Death ── */
+  function demoDeath() {
+    showTint('death-tint');
+  }
+
+  /* ── Tint overlay ── */
+  function showTint(cls) {
+    const el = document.getElementById('feedback-tint');
+    el.className = 'hud-overlay-tint ' + cls;
+    setTimeout(() => { el.className = 'hud-overlay-tint'; }, 600);
+  }
+
+  /* ── Score pop ── */
+  function showScorePop(text) {
+    const container = document.getElementById('score-pop-container');
+    const el = document.createElement('div');
+    el.className = 'score-pop';
+    el.textContent = text;
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 1300);
+  }
+
+  /* ── Wrong text ── */
+  function showWrongText() {
+    const container = document.getElementById('wrong-text-container');
+    const el = document.createElement('div');
+    el.className = 'wrong-text';
+    el.textContent = 'WRONG VALUE!';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 600);
+  }
+
+  /* ── Particles ── */
+  function spawnParticles(zone) {
+    const container = document.getElementById('particle-container');
+    const rect = zone.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    const colors = ['#4CAF50','#FFD600','#A5D6A7','#FFEB3B','#81C784'];
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const angle = (i / 14) * Math.PI * 2;
+      const dist = 60 + Math.random() * 60;
+      p.style.cssText = `
+        left:${cx}px; top:${cy}px;
+        background:${colors[i%colors.length]};
+        --tx:${Math.cos(angle)*dist}px;
+        --ty:${Math.sin(angle)*dist - 20}px;
+        animation-delay:${Math.random()*0.1}s;
+      `;
+      container.appendChild(p);
+      setTimeout(() => p.remove(), 1000);
+    }
+  }
+
+  /* ── Urgent timer toggle ── */
+  let _urgent = false;
+  function toggleUrgent() {
+    _urgent = !_urgent;
+    const timer = document.getElementById('session-timer');
+    const btn = document.getElementById('btn-urgent-toggle');
+    if (_urgent) {
+      timer.classList.add('urgent');
+      timer.textContent = '00:47';
+      btn.classList.add('on');
+    } else {
+      timer.classList.remove('urgent');
+      timer.textContent = '19:42';
+      btn.classList.remove('on');
+    }
+  }
+
+  /* ── Leaderboard toggle ── */
+  let _lbVisible = true;
+  function toggleLeaderboard() {
+    _lbVisible = !_lbVisible;
+    const lb = document.getElementById('hud-leaderboard');
+    const btn = document.getElementById('btn-lb-toggle');
+    lb.style.display = _lbVisible ? '' : 'none';
+    btn.classList.toggle('on', _lbVisible);
+  }
+
+  /* ── Flat mode toggle ── */
+  let _flatVisible = false;
+  function toggleFlat() {
+    _flatVisible = !_flatVisible;
+    const panel = document.getElementById('flat-panel');
+    const btn = document.getElementById('btn-flat-toggle');
+    panel.style.display = _flatVisible ? '' : 'none';
+    btn.classList.toggle('on', _flatVisible);
+  }
+
+  /* ── Flat mode submit ── */
+  function submitFlatAnswer() {
+    const val = document.getElementById('input-answer').value.trim();
+    if (!val) return;
+    const correct = Math.random() > 0.4;
+    if (correct) demoCorrect();
+    else demoWrong();
+    document.getElementById('input-answer').value = '';
+  }
+
+  /* ── Lobby countdown ── */
+  let _lobbyCount = 3;
+  let _lobbyTimer = null;
+  function startLobbyCountdown() {
+    _lobbyCount = 3;
+    document.getElementById('lobby-count').textContent = '0' + _lobbyCount;
+    clearInterval(_lobbyTimer);
+    _lobbyTimer = setInterval(() => {
+      _lobbyCount--;
+      if (_lobbyCount <= 0) {
+        clearInterval(_lobbyTimer);
+        gotoScreen('screen-hud');
+      } else {
+        document.getElementById('lobby-count').textContent = '0' + _lobbyCount;
+      }
+    }, 1000);
+  }
+
+  /* ── Crossing timer (demo) ── */
+  let _crossingSeconds = 0;
+  let _crossingTimer = null;
+  function startCrossingTimer() {
+    clearInterval(_crossingTimer);
+    _crossingSeconds = 0;
+    _crossingTimer = setInterval(() => {
+      _crossingSeconds++;
+      const bonus = Math.max(0, 60 - _crossingSeconds);
+      const mm = Math.floor(_crossingSeconds/60);
+      const ss = _crossingSeconds % 60;
+      document.getElementById('crossing-time').textContent = mm + ':' + String(ss).padStart(2,'0');
+      document.getElementById('speed-bonus').textContent = '+' + bonus + ' pts';
+      const pct = Math.min(100, (_crossingSeconds / 60) * 100);
+      document.getElementById('speed-bar').style.width = (100-pct) + '%';
+    }, 1000);
+  }
+
+  /* ── Session timer (demo countdown) ── */
+  let _sessionSeconds = 19*60 + 42;
+  let _sessionTimer = null;
+  function startSessionTimer() {
+    clearInterval(_sessionTimer);
+    _sessionTimer = setInterval(() => {
+      if (_sessionSeconds <= 0) {
+        clearInterval(_sessionTimer);
+        gotoScreen('screen-results');
+        return;
+      }
+      _sessionSeconds--;
+      const mm = Math.floor(_sessionSeconds/60);
+      const ss = _sessionSeconds % 60;
+      const timerEl = document.getElementById('session-timer');
+      timerEl.textContent = String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
+      if (_sessionSeconds <= 60 && !timerEl.classList.contains('urgent')) {
+        timerEl.classList.add('urgent');
+      }
+    }, 1000);
+  }
+
+  /* Boot sequence */
+  window.addEventListener('load', () => {
+    gotoScreen('screen-title');
+  });
+
+  /* Start timers when HUD becomes active */
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach(m => {
+      if (m.target.id === 'screen-hud' && m.target.classList.contains('active')) {
+        startCrossingTimer();
+        startSessionTimer();
+        _lbVisible = true;
+        document.getElementById('hud-leaderboard').style.display = '';
+        document.getElementById('btn-lb-toggle').classList.add('on');
+      }
+    });
+  });
+  observer.observe(document.getElementById('screen-hud'), { attributes: true, attributeFilter: ['class'] });
+</script>
+</body>
+</html>
